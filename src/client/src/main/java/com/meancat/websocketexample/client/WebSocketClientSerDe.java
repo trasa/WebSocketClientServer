@@ -37,7 +37,7 @@ public class WebSocketClientSerDe extends SimpleChannelHandler {
         Object msg = e.getMessage();
 
         if (msg instanceof WebSocketFrame || msg instanceof HttpRequest) {
-            // SerDe will ignore this one and just send it down pipeline as-is
+            // send this down as-is
             ctx.sendDownstream(e);
             return;
         }
@@ -58,7 +58,7 @@ public class WebSocketClientSerDe extends SimpleChannelHandler {
             // deserialize the frame into a Message
             handleTextWebSocketFrame(ctx, e, (TextWebSocketFrame) msg);
         } else {
-            // SerDe is going to ignore this message and send it 'up' as-is to the next part of the pipeline
+            // ignore this and send it as-is
             ctx.sendUpstream(e);
         }
     }

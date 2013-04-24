@@ -5,6 +5,7 @@
 *.war
 *.ear
 # intellij
+workspace.xml
 .idea/workspace.xml
 .idea/tasks.xml
 *.iws

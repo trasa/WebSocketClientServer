@@ -3,6 +3,8 @@ package com.meancat.websocketexample.client;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.eclipse.jetty.websocket.*;
+import org.eclipse.jetty.websocket.WebSocketClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,5 +43,21 @@ public class GameServiceConfiguration {
         objectMapper.disable(SerializationFeature.WRITE_NULL_MAP_VALUES);
         objectMapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
         return objectMapper;
+    }
+
+    // jetty websocketclient
+
+    @Bean(initMethod = "start", destroyMethod = "stop")
+    public WebSocketClientFactory webSocketClientFactory() {
+        WebSocketClientFactory bean = new WebSocketClientFactory();
+        // set other interesting parameters here
+        return bean;
+    }
+
+    @Bean
+    public WebSocketClient webSocketClient(WebSocketClientFactory webSocketClientFactory) {
+        org.eclipse.jetty.websocket.WebSocketClient bean = webSocketClientFactory.newWebSocketClient();
+        // other parameters for the websocketclient
+        return bean;
     }
 }

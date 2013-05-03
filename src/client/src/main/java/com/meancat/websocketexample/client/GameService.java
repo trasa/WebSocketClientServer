@@ -56,8 +56,8 @@ public class GameService {
         client.connect();
         System.out.println("Connected to " + client.getConnectedUrl());
 
-        // websocket ping
-        client.sendPingWebSocketFrame();
+        // websocket ping is not implemented
+//        client.sendPingWebSocketFrame();
         // sending a message which will be echo'd back to us:
         client.send(new Message("Hello, World!"));
 

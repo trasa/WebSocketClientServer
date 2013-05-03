@@ -3,16 +3,6 @@ package com.meancat.websocketexample.client;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.jboss.netty.channel.ChannelFactory;
-import org.jboss.netty.channel.ChannelPipeline;
-import org.jboss.netty.channel.ChannelPipelineFactory;
-import org.jboss.netty.channel.Channels;
-import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
-import org.jboss.netty.handler.codec.http.HttpRequestEncoder;
-import org.jboss.netty.handler.codec.http.HttpResponseDecoder;
-import org.jboss.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
-import org.jboss.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
-import org.jboss.netty.handler.codec.http.websocketx.WebSocketVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,10 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.SystemPropertyUtils;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.concurrent.Executors;
 
 @Configuration
 @EnableScheduling
@@ -55,36 +41,5 @@ public class GameServiceConfiguration {
         objectMapper.disable(SerializationFeature.WRITE_NULL_MAP_VALUES);
         objectMapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
         return objectMapper;
-    }
-
-    // set up some netty code:
-    @Bean
-    public ChannelFactory socketChannelFactory() {
-        return new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
-    }
-
-    @Bean
-    WebSocketClientHandshaker clientHandshaker() throws URISyntaxException {
-        logger.debug("Creating client handshaker to {}", serviceUrl);
-        URI url = new URI(serviceUrl);
-        return new WebSocketClientHandshakerFactory().newHandshaker(url, WebSocketVersion.V13, null, false, null);
-    }
-
-    @Bean
-    public ChannelPipelineFactory socketChannelPipelineFactory(final WebSocketClientSerDe serDe, final WebSocketClientHandler webSocketClientHandler) {
-        return new ChannelPipelineFactory() {
-            public ChannelPipeline getPipeline() {
-                ChannelPipeline pipeline = Channels.pipeline();
-
-                pipeline.addLast("decoder", new HttpResponseDecoder());
-                pipeline.addLast("encoder", new HttpRequestEncoder());
-                // this part of the pipeline translates json into objects and back.
-                pipeline.addLast("serialierDeserializer", serDe);
-                // this part of the pipeline handles the resulting objects to go "do stuff"
-                pipeline.addLast("ws-handler", webSocketClientHandler);
-
-                return pipeline;
-            }
-        };
     }
 }

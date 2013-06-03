@@ -3,6 +3,7 @@ package com.meancat.websocketexample.client;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.meancat.websocketexample.client.messages.MessageBody;
 import org.jboss.netty.channel.ChannelFactory;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
@@ -63,6 +64,13 @@ public class GameServiceConfiguration {
         objectMapper.disableDefaultTyping();
         objectMapper.disable(SerializationFeature.WRITE_NULL_MAP_VALUES);
         objectMapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
+
+        // register the @MessageBody classes
+        for(Class<?> clazz : reflections.getTypesAnnotatedWith(MessageBody.class)) {
+            logger.debug("Registering MessageBody {}", clazz.getSimpleName());
+            objectMapper.registerSubtypes(clazz);
+        }
+
         return objectMapper;
     }
 

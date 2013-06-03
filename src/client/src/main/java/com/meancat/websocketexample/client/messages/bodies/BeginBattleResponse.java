@@ -1,5 +1,8 @@
 package com.meancat.websocketexample.client.messages.bodies;
 
+import com.meancat.websocketexample.client.messages.MessageBody;
+
+@MessageBody
 public class BeginBattleResponse {
     public boolean successful;
     public Result result;
@@ -9,5 +12,4 @@ public class BeginBattleResponse {
         INVALID_REQUEST
         // etc, etc etc...
     }
-
 }

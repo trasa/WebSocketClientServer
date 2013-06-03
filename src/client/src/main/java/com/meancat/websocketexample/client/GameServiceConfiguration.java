@@ -13,6 +13,13 @@ import org.jboss.netty.handler.codec.http.HttpResponseDecoder;
 import org.jboss.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import org.jboss.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import org.jboss.netty.handler.codec.http.websocketx.WebSocketVersion;
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +33,8 @@ import org.springframework.util.SystemPropertyUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Set;
 import java.util.concurrent.Executors;
 
 @Configuration
@@ -49,12 +58,24 @@ public class GameServiceConfiguration {
     }
 
     @Bean
-    public ObjectMapper jsonObjectMapper() {
+    public ObjectMapper jsonObjectMapper(Reflections reflections) {
         ObjectMapper objectMapper = new ObjectMapper(new JsonFactory());
         objectMapper.disableDefaultTyping();
         objectMapper.disable(SerializationFeature.WRITE_NULL_MAP_VALUES);
         objectMapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
         return objectMapper;
+    }
+
+    @Bean
+    public Reflections reflections() {
+        return new Reflections(new ConfigurationBuilder()
+            .filterInputsBy(new FilterBuilder()
+                .include(FilterBuilder.prefix("com.meancat.websocketexample.client")))
+            .setUrls(ClasspathHelper.forPackage("com.meancat.websocketexample.client"))
+            .setScanners(new SubTypesScanner(),
+                    new TypeAnnotationsScanner(),
+                    new ResourcesScanner())
+        );
     }
 
     // set up some netty code:

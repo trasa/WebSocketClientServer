@@ -7,4 +7,4 @@
 # intellij
 .idea
 *.iml
-*.swp # vim swap files
+**/*.swp 

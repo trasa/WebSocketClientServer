@@ -1,12 +1,10 @@
+**/target
 *.class
-
 # Package Files #
 *.jar
 *.war
 *.ear
 # intellij
-workspace.xml
-.idea/workspace.xml
-.idea/tasks.xml
-*.iws
+.idea
+*.iml
 *.swp # vim swap files

@@ -18,7 +18,7 @@
         <slf4j.version>1.7.30</slf4j.version>
         <netty.version>3.5.3.Final</netty.version>
         <args4j.version>2.0.12</args4j.version>
-        <guava.version>13.0.1</guava.version>
+        <guava.version>24.1.1-jre</guava.version>
         <logback.version>1.0.6</logback.version>
         <mockito.version>1.9.5-rc1</mockito.version>
         <jackson.version>2.10.0.pr1</jackson.version>

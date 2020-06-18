@@ -21,7 +21,7 @@
         <guava.version>13.0.1</guava.version>
         <logback.version>1.0.6</logback.version>
         <mockito.version>1.9.5-rc1</mockito.version>
-        <jackson.version>2.9.10.4</jackson.version>
+        <jackson.version>2.10.0.pr1</jackson.version>
         <reflections.version>0.9.8</reflections.version>
     </properties>
 

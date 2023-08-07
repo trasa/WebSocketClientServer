@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.framework.version>[4.3.17,)</spring.framework.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <netty.version>3.5.3.Final</netty.version>
+        <netty.version>3.9.8.Final</netty.version>
         <args4j.version>2.0.12</args4j.version>
         <guava.version>[30.0-jre,)</guava.version>
         <logback.version>1.2.0</logback.version>
